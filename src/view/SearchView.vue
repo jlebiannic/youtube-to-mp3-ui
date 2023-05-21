@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import YoutubeSearchResult from "@/component/YoutubeSearchResult.vue";
-import { SearchService, type ISearchResult } from "@/service/SearchService";
+import { YoutubeService, type ISearchResult } from "@/service/YoutubeService";
 import { onMounted, reactive, ref } from "vue";
 
 const inputRef = ref<HTMLInputElement | null>(null);
@@ -13,9 +13,13 @@ onMounted(() => {
 });
 
 async function searchOnYoutube() {
-  const results = await SearchService.searchOnYouTube(searchQuery.value);
+  const results = await YoutubeService.searchOnYouTube(searchQuery.value);
   youtubeSearchResults.splice(0);
   youtubeSearchResults.push(...results);
+}
+
+function downloadAudioTrack(videoId: string) {
+  YoutubeService.downloadAudioTrack(videoId);
 }
 
 function setFocuOnInput() {
@@ -42,6 +46,7 @@ function setFocuOnInput() {
       :key="youtubeSearchResult.id"
     >
       <YoutubeSearchResult :result="youtubeSearchResult" />
+      <button @click="() => downloadAudioTrack(youtubeSearchResult.id)">Download</button>
     </li>
   </ul>
 </template>
