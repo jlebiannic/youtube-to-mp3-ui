@@ -1,21 +1,39 @@
 <script setup lang="ts">
 import YoutubeSearchResult from "@/component/YoutubeSearchResult.vue";
 import { SearchService, type ISearchResult } from "@/service/SearchService";
-import { reactive, ref } from "vue";
+import { onMounted, reactive, ref } from "vue";
+
+const inputRef = ref<HTMLInputElement | null>(null);
 
 const searchQuery = ref("");
 const youtubeSearchResults: ISearchResult[] = reactive([]);
+
+onMounted(() => {
+  setFocuOnInput();
+});
+
 async function searchOnYoutube() {
   const results = await SearchService.searchOnYouTube(searchQuery.value);
   youtubeSearchResults.splice(0);
   youtubeSearchResults.push(...results);
 }
+
+function setFocuOnInput() {
+  inputRef.value?.focus();
+}
 </script>
 
 <template>
   <h1>Search on YouTube</h1>
-  <input v-model="searchQuery" placeholder="Enter text for youtube search" />
-  <button @click="searchOnYoutube">Search</button>
+  <div>
+    <input
+      ref="inputRef"
+      v-model="searchQuery"
+      placeholder="Enter text for youtube search"
+      @keyup.enter="searchOnYoutube"
+    />
+    <button @click="searchOnYoutube">Search</button>
+  </div>
 
   <ul>
     <li
