@@ -47,6 +47,18 @@ function setFocuOnInput() {
     >
       <YoutubeSearchResult :result="youtubeSearchResult" />
       <button @click="() => downloadAudioTrack(youtubeSearchResult.id)">Download</button>
+
+      <v-btn
+        @click="() => downloadAudioTrack(youtubeSearchResult.id)"
+        min-width="164"
+        rel="noopener noreferrer"
+        target="_blank"
+        variant="text"
+      >
+        <v-icon icon="mdi-view-dashboard" size="large" start />
+
+        Download mp3
+      </v-btn>
     </li>
   </ul>
 </template>
