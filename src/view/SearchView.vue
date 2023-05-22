@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import YoutubeSearchResult from "@/component/YoutubeSearchResult.vue";
-import { YoutubeService, type ISearchResult } from "@/service/YoutubeService";
+import { YoutubeService, type ISearchResult } from "@/common/service/YoutubeService";
 import { onMounted, reactive, ref } from "vue";
 
 const inputRef = ref<HTMLInputElement | null>(null);

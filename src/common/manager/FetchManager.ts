@@ -1,18 +1,10 @@
-export interface ISearchResult {
-  id: string;
-  link: string;
-  title: string;
-  imgUrl: string;
+interface IFetchFileParams {
+  url: string;
+  defaultFileName?: string;
 }
-
-export class YoutubeService {
-  static async searchOnYouTube(query: string): Promise<ISearchResult[]> {
-    const response = await fetch(`/api/youtube/search?query=${query}`);
-    return await response.json();
-  }
-
-  static async downloadAudioTrack(videoId: string) {
-    fetch(`/api/youtube/audiotrack?videoId=${videoId}`)
+export class FetchManager {
+  static async fetchFile(params: IFetchFileParams) {
+    fetch(params.url)
       .then((response) => {
         // Vérifier si la réponse est OK (200)
         if (!response.ok) {
@@ -22,7 +14,9 @@ export class YoutubeService {
         // Extraire le nom de fichier de l'en-tête Content-Disposition
         const contentDisposition = response.headers.get("content-disposition");
         const fileNameMatch = contentDisposition?.match(/filename=(.+)/);
-        const fileName = fileNameMatch ? fileNameMatch[1] : "fichier.mp3";
+        const fileName = fileNameMatch
+          ? fileNameMatch[1]
+          : params.defaultFileName || "file";
 
         // Récupérer les données binaires du corps de la réponse
         return response.blob().then((blob) => ({ blob, fileName }));
@@ -47,6 +41,7 @@ export class YoutubeService {
       })
       .catch((error) => {
         console.error("Erreur :", error);
+        throw new Error("Erreur inconnue lors du traitement du fichier");
       });
   }
 }
