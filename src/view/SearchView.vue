@@ -30,13 +30,19 @@ function setFocuOnInput() {
 <template>
   <h1>Search on YouTube</h1>
   <div>
-    <input
-      ref="inputRef"
-      v-model="searchQuery"
-      placeholder="Enter text for youtube search"
-      @keyup.enter="searchOnYoutube"
-    />
-    <button @click="searchOnYoutube">Search</button>
+    <v-form @submit.prevent>
+      <v-text-field
+        ref="inputRef"
+        v-model="searchQuery"
+        placeholder="Enter text for youtube search"
+        @keyup.enter="searchOnYoutube"
+        clearable
+        label="Search on youtube"
+        prepend-icon="mdi-vuetify"
+        variant="outlined"
+      ></v-text-field>
+      <v-btn color="primary" block class="mt-2" @click="searchOnYoutube">Search</v-btn>
+    </v-form>
   </div>
 
   <ul>
@@ -46,17 +52,13 @@ function setFocuOnInput() {
       :key="youtubeSearchResult.id"
     >
       <YoutubeSearchResult :result="youtubeSearchResult" />
-      <button @click="() => downloadAudioTrack(youtubeSearchResult.id)">Download</button>
 
       <v-btn
         @click="() => downloadAudioTrack(youtubeSearchResult.id)"
-        min-width="164"
-        rel="noopener noreferrer"
-        target="_blank"
-        variant="text"
+        variant="flat"
+        color="primary"
       >
-        <v-icon icon="mdi-view-dashboard" size="large" start />
-
+        <v-icon icon="mdi-tray-arrow-down" size="large" start />
         Download mp3
       </v-btn>
     </li>
