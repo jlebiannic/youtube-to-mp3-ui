@@ -11,12 +11,12 @@ const props = defineProps<IYoutubeSearchResultProps>();
 <template>
   <div>
     <h2>{{ props.result.title }}</h2>
-    <a :href="props.result.link"><img class="Image" :src="props.result.imgUrl" /></a>
+    <a :href="props.result.link"><img class="image" :src="props.result.imgUrl" /></a>
   </div>
 </template>
 
 <style scoped>
-.Image {
+.image {
   cursor: pointer;
 }
 </style>
