@@ -63,9 +63,9 @@ function isVideoIdIsInProgressDownloads(videoId: string): boolean {
 </script>
 
 <template>
-  <h1>Search on YouTube</h1>
+  <h1 class="search-on-youtube">Search on YouTube</h1>
   <div>
-    <v-form @submit.prevent>
+    <v-form @submit.prevent autocomplete="on">
       <v-container>
         <v-row>
           <v-icon class="search-icon" icon="mdi-card-search-outline" size="x-large"></v-icon>
@@ -122,6 +122,11 @@ function isVideoIdIsInProgressDownloads(videoId: string): boolean {
 </template>
 
 <style scoped>
+.search-on-youtube {
+  margin: 1rem;
+  color: red;
+}
+
 .search-result {
   margin-bottom: 10px;
 }
