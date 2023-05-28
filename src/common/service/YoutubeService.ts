@@ -10,11 +10,11 @@ export interface ISearchResult {
 export class YoutubeService {
   static async searchOnYouTube(query: string): Promise<ISearchResult[]> {
     const response = await fetch(`/api/youtube/search?query=${query}`);
-    return await response.json();
+    return response.json();
   }
 
-  static async downloadAudioTrack(videoId: string) {
-    FetchManager.fetchFile({
+  static async downloadAudioTrack(videoId: string): Promise<void> {
+    return FetchManager.fetchFile({
       url: `/api/youtube/audiotrack?videoId=${videoId}`,
       defaultFileName: "fichier.mp3"
     });

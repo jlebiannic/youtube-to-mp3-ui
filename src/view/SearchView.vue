@@ -7,30 +7,58 @@ const inputRef = ref<HTMLInputElement | null>(null);
 
 const searchQuery = ref("");
 const youtubeSearchResults: ISearchResult[] = reactive([]);
+const youtubeInProgressDownloads: ISearchResult[] = reactive([]);
 
-const isLoading = ref(false);
+const searching = ref(false);
 
 onMounted(() => {
   setFocuOnInput();
 });
 
 async function searchOnYoutube() {
-  isLoading.value = true;
+  searching.value = true;
   try {
     const results = await YoutubeService.searchOnYouTube(searchQuery.value);
     youtubeSearchResults.splice(0);
     youtubeSearchResults.push(...results);
   } finally {
-    isLoading.value = false;
+    searching.value = false;
   }
 }
 
-function downloadAudioTrack(videoId: string) {
-  YoutubeService.downloadAudioTrack(videoId);
+async function downloadAudioTrack(searchResult: ISearchResult) {
+  addSearchResultToInProgressDownloads(searchResult);
+  try {
+    await YoutubeService.downloadAudioTrack(searchResult.id);
+  } finally {
+    removeSearchResultToInProgressDownloads(searchResult);
+  }
 }
 
 function setFocuOnInput() {
   inputRef.value?.focus();
+}
+
+function addSearchResultToInProgressDownloads(searchResult: ISearchResult) {
+  if (!isVideoIdIsInProgressDownloads(searchResult.id)) {
+    youtubeInProgressDownloads.push(searchResult);
+  }
+}
+
+function removeSearchResultToInProgressDownloads(searchResult: ISearchResult) {
+  const indexElement = youtubeInProgressDownloads.findIndex(
+    (element) => element.id === searchResult.id
+  );
+  if (indexElement !== -1) {
+    youtubeInProgressDownloads.splice(indexElement, 1);
+  }
+}
+
+function isVideoIdIsInProgressDownloads(videoId: string): boolean {
+  return (
+    youtubeInProgressDownloads.find((inProgressDownload) => inProgressDownload.id === videoId) !==
+    undefined
+  );
 }
 </script>
 
@@ -57,7 +85,7 @@ function setFocuOnInput() {
           </v-col>
         </v-row>
 
-        <v-row v-if="isLoading">
+        <v-row v-if="searching">
           <v-col cols="6" offset="4">
             <v-progress-circular indeterminate size="64"></v-progress-circular>
           </v-col>
@@ -66,7 +94,7 @@ function setFocuOnInput() {
     </v-form>
   </div>
 
-  <ul v-if="!isLoading">
+  <ul v-if="!searching">
     <li
       class="search-result"
       v-for="youtubeSearchResult in youtubeSearchResults"
@@ -78,9 +106,10 @@ function setFocuOnInput() {
             <YoutubeSearchResult :result="youtubeSearchResult" />
 
             <v-btn
-              @click="() => downloadAudioTrack(youtubeSearchResult.id)"
+              @click="() => downloadAudioTrack(youtubeSearchResult)"
               variant="flat"
               color="primary"
+              :loading="isVideoIdIsInProgressDownloads(youtubeSearchResult.id)"
             >
               <v-icon icon="mdi-tray-arrow-down" size="large" start />
               Download mp3

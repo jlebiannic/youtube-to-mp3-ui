@@ -3,8 +3,8 @@ interface IFetchFileParams {
   defaultFileName?: string;
 }
 export class FetchManager {
-  static async fetchFile(params: IFetchFileParams) {
-    fetch(params.url)
+  static async fetchFile(params: IFetchFileParams): Promise<void> {
+    return fetch(params.url)
       .then((response) => {
         // Vérifier si la réponse est OK (200)
         if (!response.ok) {
@@ -14,9 +14,7 @@ export class FetchManager {
         // Extraire le nom de fichier de l'en-tête Content-Disposition
         const contentDisposition = response.headers.get("content-disposition");
         const fileNameMatch = contentDisposition?.match(/filename=(.+)/);
-        const fileName = fileNameMatch
-          ? fileNameMatch[1]
-          : params.defaultFileName || "file";
+        const fileName = fileNameMatch ? fileNameMatch[1] : params.defaultFileName || "file";
 
         // Récupérer les données binaires du corps de la réponse
         return response.blob().then((blob) => ({ blob, fileName }));
