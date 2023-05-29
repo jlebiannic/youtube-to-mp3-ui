@@ -18,11 +18,13 @@ git add . && git commit -m "feat: xxx" && git push
 
 ## Ajout des téléchargements en cours dans une liste à droite avec spinner
 
-## bug: le champs reste valué mais n'est pas pris en compte après un changement d'onglet
+## [FIXED] bug: le champs input de recherche reste valué après un clique sur une vidéo puis "history back"
 
 ## faire en sorte que le champs de recherche garde les anciennes recherches
 
 ## transition (fondue) lors de l'affichage de la liste de droite (zone de téléchargement) avec déplacement de la vidéo en zone de téléchargement
+
+## possibilité de saisir une url
 
 ## TUs
 
