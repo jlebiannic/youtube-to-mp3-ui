@@ -35,3 +35,5 @@ git add . && git commit -m "feat: xxx" && git push
 ## Server
 
 ### blinder avec des try/catch
+
+### mettre une limite pour la durée (ne pas traiter des vidéos de plus 8 min par exemple)
