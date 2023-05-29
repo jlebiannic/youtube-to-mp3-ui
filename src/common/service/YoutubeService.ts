@@ -5,6 +5,7 @@ export interface ISearchResult {
   link: string;
   title: string;
   imgUrl: string;
+  duration?: string;
 }
 
 export class YoutubeService {

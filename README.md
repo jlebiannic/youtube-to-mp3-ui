@@ -26,6 +26,12 @@ git add . && git commit -m "feat: xxx" && git push
 
 ## possibilité de saisir une url
 
+## historique des recherches
+
 ## TUs
 
 ### removeElement de ArrayUtil
+
+## Server
+
+### blinder avec des try/catch

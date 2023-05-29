@@ -12,6 +12,7 @@ const props = defineProps<IYoutubeSearchResultProps>();
   <div>
     <h2>{{ props.result.title }}</h2>
     <a :href="props.result.link"><img class="image" :src="props.result.imgUrl" /></a>
+    <div v-if="props.result.duration">duration: {{ props.result.duration }}</div>
   </div>
 </template>
 
