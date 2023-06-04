@@ -3,6 +3,7 @@ FROM node:latest as build-stage
 WORKDIR /app
 COPY package*.json ./
 COPY src ./src
+COPY public ./public
 COPY env.d.ts ./
 COPY index.html ./
 COPY tsconfig.* ./
