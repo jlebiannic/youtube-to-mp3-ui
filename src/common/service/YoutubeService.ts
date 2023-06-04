@@ -14,6 +14,10 @@ export class YoutubeService {
     const response = await fetch(`/api/youtube/search?query=${query}`);
     const searchResults: ISearchResult[] = await response.json();
 
+    return YoutubeService.decodeTitles(searchResults);
+  }
+
+  private static decodeTitles(searchResults: ISearchResult[]): ISearchResult[] {
     return searchResults.map((searchResult) => ({
       ...searchResult,
       title: Utils.decodeHTMString(searchResult.title)
