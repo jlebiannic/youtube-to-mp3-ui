@@ -1,3 +1,4 @@
+import { Utils } from "./../util/Utils";
 import { FetchManager } from "@/common/manager/FetchManager";
 
 export interface ISearchResult {
@@ -11,7 +12,12 @@ export interface ISearchResult {
 export class YoutubeService {
   static async searchOnYouTube(query: string): Promise<ISearchResult[]> {
     const response = await fetch(`/api/youtube/search?query=${query}`);
-    return response.json();
+    const searchResults: ISearchResult[] = await response.json();
+
+    return searchResults.map((searchResult) => ({
+      ...searchResult,
+      title: Utils.decodeHTMString(searchResult.title)
+    }));
   }
 
   static async downloadAudioTrack(videoId: string): Promise<void> {
