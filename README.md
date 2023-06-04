@@ -12,6 +12,14 @@ https://medium.com/bb-tutorials-and-thoughts/vue-js-how-to-proxy-to-backend-serv
 
 git add . && git commit -m "feat: xxx" && git push
 
+## Docker
+
+docker build -t youtube-to-mp3-ui:0.0.1 -f docker/Dockerfile .
+
+docker run -p 80:80 youtube-to-mp3-ui:0.0.1
+
+docker run -it youtube-to-mp3-ui:0.0.1 bash
+
 # TODOs
 
 ## Gestion des quotes (encodage ?)
