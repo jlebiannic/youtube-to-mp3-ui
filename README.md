@@ -22,7 +22,9 @@ docker run -it youtube-to-mp3-ui:0.0.1 bash
 
 # TODOs
 
-## Gestion des quotes (encodage ?)
+## Gérer les cas d'erreur d'appel API
+
+## [FIXED] Gestion des quotes (encodage ?)
 
 ## Ajout des téléchargements en cours dans une liste à droite avec spinner
 

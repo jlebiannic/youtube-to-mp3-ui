@@ -77,7 +77,7 @@ function isVideoIdIsInProgressDownloads(videoId: string): boolean {
 </script>
 
 <template>
-  <h1 class="search-on-youtube">Search on YouTube</h1>
+  <h1 class="search-on-youtube">Search on YouTube (2)</h1>
   <div>
     <v-form @submit.prevent autocomplete="on">
       <v-container>
