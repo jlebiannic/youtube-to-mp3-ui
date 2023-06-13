@@ -1,5 +1,5 @@
 # Étape 1 : Builder l'application
-FROM node:latest as build-stage
+FROM node:20.0 as build-stage
 WORKDIR /app
 COPY package*.json ./
 COPY src ./src

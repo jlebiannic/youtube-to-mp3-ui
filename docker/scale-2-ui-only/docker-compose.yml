@@ -1,0 +1,28 @@
+version: "3"
+
+services:
+  app-ui-1:
+    image: youtube-to-mp3-ui:0.0.1
+    environment:
+      - APP_NAME=web-app-ui-1
+  #    ports:
+  #      - 81:80
+
+  app-ui-2:
+    image: youtube-to-mp3-ui:0.0.2
+    environment:
+      - APP_NAME=web-app-ui-2
+  #    ports:
+  #      - 82:80
+
+  app-back:
+    image: youtube-to-mp3-back:0.0.1
+    ports:
+      - 3000:3000
+
+  nginx-lb:
+    image: nginx
+    ports:
+      - 80:80
+    volumes:
+      - ./nginx-lb.conf:/etc/nginx/nginx.conf
