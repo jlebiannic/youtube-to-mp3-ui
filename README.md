@@ -20,6 +20,8 @@ docker run -p 80:80 youtube-to-mp3-ui:0.0.1
 
 docker run -it youtube-to-mp3-ui:0.0.1 bash
 
+docker compose up --scale app-back=2 --scale app-ui=2
+
 # TODOs
 
 ## Gérer les cas d'erreur d'appel API
