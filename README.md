@@ -49,3 +49,5 @@ docker compose up --scale app-back=2 --scale app-ui=2
 ### blinder avec des try/catch
 
 ### mettre une limite pour la durée (ne pas traiter des vidéos de plus 8 min par exemple)
+
+### supprimer les fichiers une fois la conversion terminée
