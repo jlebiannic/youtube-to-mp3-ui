@@ -6,6 +6,7 @@ export interface ISearchResult {
   link: string;
   title: string;
   imgUrl: string;
+  imgUrlMin: string;
   duration?: string;
 }
 
