@@ -5,6 +5,8 @@ import { useDisplay } from "vuetify/lib/framework.mjs";
 
 export interface ISearchFormProps {
   onSubmit: (searchQuery: string) => void;
+  label: string;
+  placeholder: string;
 }
 const props = defineProps<ISearchFormProps>();
 
@@ -44,10 +46,10 @@ function setFocuOnInput() {
       <v-text-field
         ref="inputRef"
         v-model="searchQuery"
-        placeholder="Enter text for youtube search"
+        :placeholder="props.placeholder"
         @keyup.enter="() => props.onSubmit(searchQuery)"
         clearable
-        label="Search on youtube"
+        :label="props.label"
         variant="outlined"
       ></v-text-field>
     </v-col>

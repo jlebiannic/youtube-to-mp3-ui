@@ -38,7 +38,11 @@ async function downloadAudioTrack(searchResult: ISearchResult) {
     <v-form @submit.prevent autocomplete="on">
       <v-row>
         <v-col cols="11">
-          <SearchForm :on-submit="(searchQuery:string)=>searchOnYoutube(searchQuery)"></SearchForm>
+          <SearchForm
+            :on-submit="(searchQuery:string)=>searchOnYoutube(searchQuery)"
+            placeholder="Enter text ou url for youtube search"
+            label="Search on youtube"
+          ></SearchForm>
           <!-- Résultats de la recherche -->
           <v-row v-if="searching">
             <v-col cols="6" offset="4">
