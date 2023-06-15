@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { type ISearchResult } from "@/common/service/YoutubeService";
+import type { ISearchResult } from "@/model/ISearchResult";
 
 export interface IYoutubeSearchResultProps {
   result: ISearchResult;

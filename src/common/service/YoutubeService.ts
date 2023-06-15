@@ -1,14 +1,6 @@
+import type { ISearchResult } from "@/model/ISearchResult";
 import { Utils } from "./../util/Utils";
 import { FetchManager } from "@/common/manager/FetchManager";
-
-export interface ISearchResult {
-  id: string;
-  link: string;
-  title: string;
-  imgUrl: string;
-  imgUrlMin: string;
-  duration?: string;
-}
 
 export class YoutubeService {
   static async searchOnYouTube(query: string): Promise<ISearchResult[]> {

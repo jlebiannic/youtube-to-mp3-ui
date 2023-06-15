@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import YoutubeSearchResult from "@/component/YoutubeSearchResult.vue";
-import { YoutubeService, type ISearchResult } from "@/common/service/YoutubeService";
+import { YoutubeService } from "@/common/service/YoutubeService";
 import { reactive, ref } from "vue";
 import YoutubeSearchResultMin from "@/component/YoutubeSearchResultMin.vue";
-import DownloadButton from "@/component/DownloadButton.vue";
 import SearchForm from "@/component/SearchForm.vue";
+import YoutubeSearchResults from "@/component/YoutubeSearchResults.vue";
+import { SearchResult, type ISearchResult } from "@/model/ISearchResult";
 
 const youtubeSearchResults: ISearchResult[] = reactive([]);
 const youtubeInProgressDownloads: ISearchResult[] = reactive([]);
@@ -23,34 +23,12 @@ async function searchOnYoutube(searchQuery: string) {
 }
 
 async function downloadAudioTrack(searchResult: ISearchResult) {
-  addSearchResultToInProgressDownloads(searchResult);
+  SearchResult.addSearchResultTo(searchResult, youtubeInProgressDownloads);
   try {
     await YoutubeService.downloadAudioTrack(searchResult.id);
   } finally {
-    removeSearchResultToInProgressDownloads(searchResult);
+    SearchResult.removeSearchResultFrom(searchResult, youtubeInProgressDownloads);
   }
-}
-
-function addSearchResultToInProgressDownloads(searchResult: ISearchResult) {
-  if (!isVideoIdIsInProgressDownloads(searchResult.id)) {
-    youtubeInProgressDownloads.push(searchResult);
-  }
-}
-
-function removeSearchResultToInProgressDownloads(searchResult: ISearchResult) {
-  const indexElement = youtubeInProgressDownloads.findIndex(
-    (element) => element.id === searchResult.id
-  );
-  if (indexElement !== -1) {
-    youtubeInProgressDownloads.splice(indexElement, 1);
-  }
-}
-
-function isVideoIdIsInProgressDownloads(videoId: string): boolean {
-  return (
-    youtubeInProgressDownloads.find((inProgressDownload) => inProgressDownload.id === videoId) !==
-    undefined
-  );
 }
 </script>
 
@@ -68,20 +46,11 @@ function isVideoIdIsInProgressDownloads(videoId: string): boolean {
             </v-col>
           </v-row>
           <div v-else>
-            <v-row
-              class="search-result"
-              v-for="youtubeSearchResult in youtubeSearchResults"
-              :key="youtubeSearchResult.id"
-            >
-              <v-col>
-                <YoutubeSearchResult :result="youtubeSearchResult" />
-                <DownloadButton
-                  :onclick="() => downloadAudioTrack(youtubeSearchResult)"
-                  :is-loading="isVideoIdIsInProgressDownloads(youtubeSearchResult.id)"
-                  text="Download mp3"
-                ></DownloadButton>
-              </v-col>
-            </v-row>
+            <YoutubeSearchResults
+              :youtubeSearchResults="youtubeSearchResults"
+              :youtubeInProgressDownloads="youtubeInProgressDownloads"
+              :onClickResult="(youtubeSearchResult) => downloadAudioTrack(youtubeSearchResult)"
+            ></YoutubeSearchResults>
           </div>
         </v-col>
         <!-- Colonne de droite des téléchargement en cours -->
@@ -109,8 +78,5 @@ function isVideoIdIsInProgressDownloads(videoId: string): boolean {
 .search-on-youtube {
   margin: 1rem;
   color: red;
-}
-.search-result {
-  margin-bottom: 10px;
 }
 </style>
