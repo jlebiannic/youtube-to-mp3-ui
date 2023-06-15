@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { YoutubeService } from "@/common/service/YoutubeService";
 import { reactive, ref } from "vue";
-import YoutubeSearchResultMin from "@/component/YoutubeSearchResultMin.vue";
 import SearchForm from "@/component/SearchForm.vue";
 import YoutubeSearchResults from "@/component/YoutubeSearchResults.vue";
 import { SearchResult, type ISearchResult } from "@/model/ISearchResult";
+import YoutubeDownloadingSearchResults from "@/component/YoutubeDownloadingSearchResults.vue";
 
 const youtubeSearchResults: ISearchResult[] = reactive([]);
 const youtubeInProgressDownloads: ISearchResult[] = reactive([]);
@@ -47,22 +47,18 @@ async function downloadAudioTrack(searchResult: ISearchResult) {
           </v-row>
           <div v-else>
             <YoutubeSearchResults
-              :youtubeSearchResults="youtubeSearchResults"
-              :youtubeInProgressDownloads="youtubeInProgressDownloads"
-              :onClickResult="(youtubeSearchResult) => downloadAudioTrack(youtubeSearchResult)"
+              :youtube-search-results="youtubeSearchResults"
+              :youtube-in-progress-downloads="youtubeInProgressDownloads"
+              :on-click-result="(youtubeSearchResult) => downloadAudioTrack(youtubeSearchResult)"
             ></YoutubeSearchResults>
           </div>
         </v-col>
         <!-- Colonne de droite des téléchargement en cours -->
         <v-col cols="1" v-if="youtubeInProgressDownloads.length > 0">
           <div class="sticky-top">
-            <v-row
-              class="search-result"
-              v-for="youtubeInProgressDownload in youtubeInProgressDownloads"
-              :key="youtubeInProgressDownload.id"
-            >
-              <YoutubeSearchResultMin :result="youtubeInProgressDownload" />
-            </v-row>
+            <YoutubeDownloadingSearchResults
+              :youtube-in-progress-downloads="youtubeInProgressDownloads"
+            ></YoutubeDownloadingSearchResults>
           </div>
         </v-col>
       </v-row>

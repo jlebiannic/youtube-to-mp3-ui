@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { type ISearchResult } from "@/common/service/YoutubeService";
+import type { ISearchResult } from "@/model/ISearchResult";
 
-export interface IYoutubeSearchResultMinProps {
+export interface IYoutubeDownloadingSearchResultProps {
   result: ISearchResult;
 }
 
-const props = defineProps<IYoutubeSearchResultMinProps>();
+const props = defineProps<IYoutubeDownloadingSearchResultProps>();
 </script>
 
 <template>
