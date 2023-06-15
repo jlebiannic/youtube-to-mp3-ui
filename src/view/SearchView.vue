@@ -65,7 +65,7 @@ function removeSearchResultToInProgressDownloads(searchResult: ISearchResult) {
     (element) => element.id === searchResult.id
   );
   if (indexElement !== -1) {
-    // TODO à remettre youtubeInProgressDownloads.splice(indexElement, 1);
+    youtubeInProgressDownloads.splice(indexElement, 1);
   }
 }
 
@@ -81,86 +81,75 @@ function isVideoIdIsInProgressDownloads(videoId: string): boolean {
   <h1 class="search-on-youtube">Search on YouTube</h1>
   <div>
     <v-form @submit.prevent autocomplete="on">
-      <v-container>
-        <v-row class="search-bar">
-          <v-col cols="11">
-            <v-row>
-              <v-icon class="search-icon" icon="mdi-card-search-outline" size="x-large"></v-icon>
+      <v-row>
+        <v-col cols="11">
+          <!-- Champs de recherche -->
+          <v-row class="search-bar">
+            <v-icon class="search-icon" icon="mdi-card-search-outline" size="x-large"></v-icon>
+            <v-col cols="8">
+              <v-text-field
+                ref="inputRef"
+                v-model="searchQuery"
+                placeholder="Enter text for youtube search"
+                @keyup.enter="searchOnYoutube"
+                clearable
+                label="Search on youtube"
+                variant="outlined"
+              ></v-text-field>
+            </v-col>
+            <v-col cols="3">
+              <v-btn color="primary" block class="mt-2" @click="searchOnYoutube">Search</v-btn>
+            </v-col>
+          </v-row>
+          <!-- Résultats de la recherche -->
+          <v-row v-if="searching">
+            <v-col cols="6" offset="4">
+              <v-progress-circular indeterminate size="64"></v-progress-circular>
+            </v-col>
+          </v-row>
+          <div v-else>
+            <v-row
+              class="search-result"
+              v-for="youtubeSearchResult in youtubeSearchResults"
+              :key="youtubeSearchResult.id"
+            >
               <v-col cols="8">
-                <v-text-field
-                  ref="inputRef"
-                  v-model="searchQuery"
-                  placeholder="Enter text for youtube search"
-                  @keyup.enter="searchOnYoutube"
-                  clearable
-                  label="Search on youtube"
-                  variant="outlined"
-                ></v-text-field>
-              </v-col>
-              <v-col cols="3">
-                <v-btn color="primary" block class="mt-2" @click="searchOnYoutube">Search</v-btn>
+                <YoutubeSearchResult :result="youtubeSearchResult" />
+                <v-btn
+                  @click="() => downloadAudioTrack(youtubeSearchResult)"
+                  variant="flat"
+                  color="primary"
+                  :loading="isVideoIdIsInProgressDownloads(youtubeSearchResult.id)"
+                >
+                  <v-icon icon="mdi-tray-arrow-down" size="large" start />
+                  Download mp3
+                </v-btn>
               </v-col>
             </v-row>
-            <v-row v-if="searching">
-              <v-col cols="6" offset="4">
-                <v-progress-circular indeterminate size="64"></v-progress-circular>
-              </v-col>
+          </div>
+        </v-col>
+        <!-- Colonne de droite des téléchargement en cours -->
+        <v-col cols="1" v-if="youtubeInProgressDownloads.length > 0">
+          <div class="sticky-top">
+            <v-row
+              class="search-result"
+              v-for="youtubeInProgressDownload in youtubeInProgressDownloads"
+              :key="youtubeInProgressDownload.id"
+            >
+              <YoutubeSearchResultMin :result="youtubeInProgressDownload" />
             </v-row>
-          </v-col>
-          <!-- Colonne de droite des téléchargement en cours -->
-          <v-col cols="1" v-if="youtubeInProgressDownloads.length > 0">
-            <ul v-if="!searching">
-              <li
-                class="search-result"
-                v-for="youtubeInProgressDownload in youtubeInProgressDownloads"
-                :key="youtubeInProgressDownload.id"
-              >
-                <v-container>
-                  <v-row>
-                    <v-col cols="8">
-                      <YoutubeSearchResultMin :result="youtubeInProgressDownload" />
-                      <v-btn variant="flat" color="primary" :loading="true">
-                        <v-icon icon="mdi-tray-arrow-down" size="large" start />
-                      </v-btn>
-                    </v-col>
-                  </v-row>
-                </v-container>
-              </li>
-            </ul>
-          </v-col>
-        </v-row>
-      </v-container>
+          </div>
+        </v-col>
+      </v-row>
     </v-form>
   </div>
-
-  <ul v-if="!searching">
-    <li
-      class="search-result"
-      v-for="youtubeSearchResult in youtubeSearchResults"
-      :key="youtubeSearchResult.id"
-    >
-      <v-container>
-        <v-row>
-          <v-col cols="8">
-            <YoutubeSearchResult :result="youtubeSearchResult" />
-
-            <v-btn
-              @click="() => downloadAudioTrack(youtubeSearchResult)"
-              variant="flat"
-              color="primary"
-              :loading="isVideoIdIsInProgressDownloads(youtubeSearchResult.id)"
-            >
-              <v-icon icon="mdi-tray-arrow-down" size="large" start />
-              Download mp3
-            </v-btn>
-          </v-col>
-        </v-row>
-      </v-container>
-    </li>
-  </ul>
 </template>
 
 <style scoped>
+.sticky-top {
+  position: sticky;
+  top: 5rem;
+}
 .search-on-youtube {
   margin: 1rem;
   color: red;
@@ -175,6 +164,6 @@ function isVideoIdIsInProgressDownloads(videoId: string): boolean {
 }
 
 .search-bar {
-  max-height: 4rem;
+  max-height: 7rem;
 }
 </style>

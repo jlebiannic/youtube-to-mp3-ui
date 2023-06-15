@@ -3,9 +3,9 @@ import { RouterView } from "vue-router";
 </script>
 
 <template>
-  <div class="Main">
+  <v-container>
     <RouterView />
-  </div>
+  </v-container>
 </template>
 <style>
 body {
@@ -15,11 +15,5 @@ body {
 
 a {
   color: #ffffff;
-}
-
-.Main {
-  /* display: flex;
-  flex-direction: column;
-  align-items: center; */
 }
 </style>
