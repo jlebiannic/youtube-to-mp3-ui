@@ -3,6 +3,7 @@ import YoutubeSearchResult from "@/component/YoutubeSearchResult.vue";
 import { YoutubeService, type ISearchResult } from "@/common/service/YoutubeService";
 import { onMounted, reactive, ref } from "vue";
 import YoutubeSearchResultMin from "@/component/YoutubeSearchResultMin.vue";
+import { useDisplay } from "vuetify/lib/framework.mjs";
 
 const inputRef = ref<HTMLInputElement | null>(null);
 
@@ -10,10 +11,13 @@ const searchQuery = ref("");
 const youtubeSearchResults: ISearchResult[] = reactive([]);
 const youtubeInProgressDownloads: ISearchResult[] = reactive([]);
 
+const { mobile } = useDisplay();
 const searching = ref(false);
+let isMobile = mobile.value;
 
 onMounted(() => {
   forceFocusOnInput();
+  isMobile = mobile.value;
 });
 
 async function searchOnYoutube() {
@@ -85,8 +89,7 @@ function isVideoIdIsInProgressDownloads(videoId: string): boolean {
         <v-col cols="11">
           <!-- Champs de recherche -->
           <v-row class="search-bar">
-            <v-icon class="search-icon" icon="mdi-card-search-outline" size="x-large"></v-icon>
-            <v-col cols="8">
+            <v-col cols="9">
               <v-text-field
                 ref="inputRef"
                 v-model="searchQuery"
@@ -98,7 +101,15 @@ function isVideoIdIsInProgressDownloads(videoId: string): boolean {
               ></v-text-field>
             </v-col>
             <v-col cols="3">
-              <v-btn color="primary" block class="mt-2" @click="searchOnYoutube">Search</v-btn>
+              <v-btn color="primary" block class="mt-2" @click="searchOnYoutube">
+                <v-icon
+                  class="search-icon mt-1"
+                  icon="mdi-card-search-outline"
+                  size="x-large"
+                  start
+                ></v-icon>
+                {{ isMobile ? "" : "Search" }}
+              </v-btn>
             </v-col>
           </v-row>
           <!-- Résultats de la recherche -->
@@ -113,7 +124,7 @@ function isVideoIdIsInProgressDownloads(videoId: string): boolean {
               v-for="youtubeSearchResult in youtubeSearchResults"
               :key="youtubeSearchResult.id"
             >
-              <v-col cols="8">
+              <v-col>
                 <YoutubeSearchResult :result="youtubeSearchResult" />
                 <v-btn
                   @click="() => downloadAudioTrack(youtubeSearchResult)"
