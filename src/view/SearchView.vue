@@ -4,6 +4,7 @@ import { YoutubeService, type ISearchResult } from "@/common/service/YoutubeServ
 import { onMounted, reactive, ref } from "vue";
 import YoutubeSearchResultMin from "@/component/YoutubeSearchResultMin.vue";
 import { useDisplay } from "vuetify/lib/framework.mjs";
+import DownloadButton from "@/component/DownloadButton.vue";
 
 const inputRef = ref<HTMLInputElement | null>(null);
 
@@ -126,15 +127,11 @@ function isVideoIdIsInProgressDownloads(videoId: string): boolean {
             >
               <v-col>
                 <YoutubeSearchResult :result="youtubeSearchResult" />
-                <v-btn
-                  @click="() => downloadAudioTrack(youtubeSearchResult)"
-                  variant="flat"
-                  color="primary"
-                  :loading="isVideoIdIsInProgressDownloads(youtubeSearchResult.id)"
-                >
-                  <v-icon icon="mdi-tray-arrow-down" size="large" start />
-                  Download mp3
-                </v-btn>
+                <DownloadButton
+                  :onclick="() => downloadAudioTrack(youtubeSearchResult)"
+                  :is-loading="isVideoIdIsInProgressDownloads(youtubeSearchResult.id)"
+                  text="Download mp3"
+                ></DownloadButton>
               </v-col>
             </v-row>
           </div>
