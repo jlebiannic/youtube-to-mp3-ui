@@ -37,7 +37,7 @@ async function downloadAudioTrack(searchResult: ISearchResult) {
   <div>
     <v-form @submit.prevent autocomplete="on">
       <v-row>
-        <v-col cols="11">
+        <v-col md="10" sm="12">
           <SearchForm
             :on-submit="(searchQuery:string)=>searchOnYoutube(searchQuery)"
             placeholder="Enter text ou url for youtube search"
@@ -58,7 +58,7 @@ async function downloadAudioTrack(searchResult: ISearchResult) {
           </div>
         </v-col>
         <!-- Colonne de droite des téléchargement en cours -->
-        <v-col cols="1" v-if="youtubeInProgressDownloads.length > 0">
+        <v-col md="1" offset-md="1" v-if="youtubeInProgressDownloads.length > 0">
           <div class="sticky-top">
             <YoutubeDownloadingSearchResults
               :youtube-in-progress-downloads="youtubeInProgressDownloads"

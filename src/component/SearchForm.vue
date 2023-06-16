@@ -2,6 +2,7 @@
 import { ref } from "vue";
 import { onMounted } from "vue";
 import { useDisplay } from "vuetify/lib/framework.mjs";
+import SearchButton from "./SearchButton.vue";
 
 export interface ISearchFormProps {
   onSubmit: (searchQuery: string) => void;
@@ -14,11 +15,8 @@ const searchQuery = ref("");
 
 const inputRef = ref<HTMLInputElement | null>(null);
 
-const { mobile } = useDisplay();
-let isMobile = mobile.value;
 onMounted(() => {
   forceFocusOnInput();
-  isMobile = mobile.value;
 });
 
 function forceFocusOnInput() {
@@ -54,15 +52,7 @@ function setFocuOnInput() {
       ></v-text-field>
     </v-col>
     <v-col cols="3">
-      <v-btn color="primary" block class="mt-2" @click="props.onSubmit(searchQuery)">
-        <v-icon
-          class="search-icon mt-1"
-          icon="mdi-card-search-outline"
-          size="x-large"
-          start
-        ></v-icon>
-        {{ isMobile ? "" : "Search" }}
-      </v-btn>
+      <search-button :on-click="() => props.onSubmit(searchQuery)"></search-button>
     </v-col>
   </v-row>
 </template>
