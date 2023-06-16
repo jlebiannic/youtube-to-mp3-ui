@@ -60,7 +60,7 @@ async function downloadAudioTrack(searchResult: ISearchResult) {
             ></YoutubeSearchResults>
           </div>
         </v-col>
-        <!-- Colonne de droite des téléchargement en cours -->
+        <!-- Colonne de droite des téléchargement en cours (non affiché sur un mobile) -->
         <v-col md="1" offset-md="1" v-if="!isMobile && youtubeInProgressDownloads.length > 0">
           <div class="sticky-top">
             <YoutubeDownloadingSearchResults

@@ -28,13 +28,11 @@ docker compose up --scale app-back=2 --scale app-ui=2
 
 ## [FIXED] Gestion des quotes (encodage ?)
 
-## Ajout des téléchargements en cours dans une liste à droite avec spinner
+## [DONE] Ajout des téléchargements en cours dans une liste à droite avec spinner
 
 ## [FIXED] bug: le champs input de recherche reste valué après un clique sur une vidéo puis "history back"
 
 ## faire en sorte que le champs de recherche garde les anciennes recherches
-
-## transition (fondue) lors de l'affichage de la liste de droite (zone de téléchargement) avec déplacement de la vidéo en zone de téléchargement
 
 ## possibilité de saisir une url
 

@@ -42,6 +42,8 @@ function setFocuOnInput() {
   <v-row class="search-bar">
     <v-col cols="9">
       <v-text-field
+        name="search"
+        autocomplete="on"
         ref="inputRef"
         v-model="searchQuery"
         :placeholder="props.placeholder"
