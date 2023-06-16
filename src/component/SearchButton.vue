@@ -1,17 +1,12 @@
 <script setup lang="ts">
-import { onMounted } from "vue";
-import { useDisplay } from "vuetify/lib/framework.mjs";
+import { inject } from "vue";
 
 export interface ISearchButtonProps {
   onClick: (searchQuery: string) => void;
 }
 const props = defineProps<ISearchButtonProps>();
 
-const { mobile } = useDisplay();
-let isMobile = mobile.value;
-onMounted(() => {
-  isMobile = mobile.value;
-});
+const isMobile: boolean | undefined = inject("isMobile");
 </script>
 
 <template>

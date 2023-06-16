@@ -5,11 +5,14 @@ import SearchForm from "@/component/SearchForm.vue";
 import YoutubeSearchResults from "@/component/YoutubeSearchResults.vue";
 import { SearchResult, type ISearchResult } from "@/model/ISearchResult";
 import YoutubeDownloadingSearchResults from "@/component/YoutubeDownloadingSearchResults.vue";
+import { inject } from "vue";
 
 const youtubeSearchResults: ISearchResult[] = reactive([]);
 const youtubeInProgressDownloads: ISearchResult[] = reactive([]);
 
 const searching = ref(false);
+
+const isMobile: boolean | undefined = inject("isMobile");
 
 async function searchOnYoutube(searchQuery: string) {
   searching.value = true;
@@ -58,7 +61,7 @@ async function downloadAudioTrack(searchResult: ISearchResult) {
           </div>
         </v-col>
         <!-- Colonne de droite des téléchargement en cours -->
-        <v-col md="1" offset-md="1" v-if="youtubeInProgressDownloads.length > 0">
+        <v-col md="1" offset-md="1" v-if="!isMobile && youtubeInProgressDownloads.length > 0">
           <div class="sticky-top">
             <YoutubeDownloadingSearchResults
               :youtube-in-progress-downloads="youtubeInProgressDownloads"
