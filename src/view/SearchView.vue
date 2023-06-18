@@ -79,7 +79,9 @@ async function downloadAudioTrack(searchResult: ISearchResult) {
   top: 5rem;
 }
 .search-on-youtube {
-  margin: 1rem;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+
   color: red;
 }
 </style>
