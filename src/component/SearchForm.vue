@@ -39,7 +39,7 @@ function setFocuOnInput() {
 </script>
 
 <template>
-  <v-row class="search-bar">
+  <v-row class="search-bar" align="center">
     <v-col cols="9">
       <v-text-field
         name="search"
@@ -51,6 +51,7 @@ function setFocuOnInput() {
         clearable
         :label="props.label"
         variant="outlined"
+        :hide-details="true"
       ></v-text-field>
     </v-col>
     <v-col cols="3">
@@ -62,9 +63,5 @@ function setFocuOnInput() {
 <style scoped>
 .search-bar {
   max-height: 7rem;
-}
-
-.search-icon {
-  margin-top: 1.3rem;
 }
 </style>
