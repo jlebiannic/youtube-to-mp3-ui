@@ -1,13 +1,13 @@
 import { createRouter, createWebHistory } from "vue-router";
-import SearchViewVue from "@/view/SearchView.vue";
+import MainView from "@/view/MainView.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: "/",
-      name: "search",
-      component: SearchViewVue
+      name: "main",
+      component: MainView
     }
   ]
 });
