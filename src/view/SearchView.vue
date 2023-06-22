@@ -1,16 +1,15 @@
 <script setup lang="ts">
 import { YoutubeService } from "@/common/service/YoutubeService";
-import { reactive, ref } from "vue";
 import SearchForm from "@/component/SearchForm.vue";
+import YoutubeDownloadingSearchResults from "@/component/YoutubeDownloadingSearchResults.vue";
 import YoutubeSearchResults from "@/component/YoutubeSearchResults.vue";
 import { SearchResult, type ISearchResult } from "@/model/ISearchResult";
-import YoutubeDownloadingSearchResults from "@/component/YoutubeDownloadingSearchResults.vue";
-import { inject } from "vue";
+import { inject, reactive, ref } from "vue";
 
 const youtubeSearchResults: ISearchResult[] = reactive([]);
 const youtubeInProgressDownloads: ISearchResult[] = reactive([]);
-
 const searching = ref(false);
+const showSnackbar = ref(false);
 
 const isMobile: boolean | undefined = inject("isMobile");
 
@@ -20,6 +19,8 @@ async function searchOnYoutube(searchQuery: string) {
     const results = await YoutubeService.searchOnYouTube(searchQuery);
     youtubeSearchResults.splice(0);
     youtubeSearchResults.push(...results);
+  } catch (error) {
+    showSnackbar.value = true;
   } finally {
     searching.value = false;
   }
@@ -29,6 +30,8 @@ async function downloadAudioTrack(searchResult: ISearchResult) {
   SearchResult.addSearchResultTo(searchResult, youtubeInProgressDownloads);
   try {
     await YoutubeService.downloadAudioTrack(searchResult.id);
+  } catch (error) {
+    showSnackbar.value = true;
   } finally {
     SearchResult.removeSearchResultFrom(searchResult, youtubeInProgressDownloads);
   }
@@ -36,6 +39,10 @@ async function downloadAudioTrack(searchResult: ISearchResult) {
 </script>
 
 <template>
+  <v-snackbar v-model="showSnackbar" timeout="2000" location="top" color="red">
+    une erreur est survenue
+  </v-snackbar>
+
   <h1 class="search-on-youtube">Search on YouTube</h1>
   <div>
     <v-form @submit.prevent autocomplete="on">
