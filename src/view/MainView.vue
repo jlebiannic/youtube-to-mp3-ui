@@ -3,11 +3,12 @@ import { ref } from "vue";
 import SearchView from "./SearchView.vue";
 import { shallowRef } from "vue";
 import { useTheme } from "vuetify/lib/framework.mjs";
+import HistoryView from "./HistoryView.vue";
 const tab = ref(0);
 const drawer = ref(false);
 const items = shallowRef([
   { idx: 0, title: "Search", icon: "mdi-magnify", content: SearchView },
-  { idx: 1, title: "Search history", icon: "mdi-history", content: SearchView }
+  { idx: 1, title: "Search history", icon: "mdi-history", content: HistoryView }
 ]);
 const theme = useTheme();
 const secondaryColor = theme.global.current.value.colors.secondary;

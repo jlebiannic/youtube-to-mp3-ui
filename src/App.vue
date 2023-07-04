@@ -5,6 +5,7 @@ import { RouterView } from "vue-router";
 import { useDisplay } from "vuetify/lib/framework.mjs";
 
 const { mobile } = useDisplay();
+
 let isMobile = mobile.value;
 onMounted(() => {
   isMobile = mobile.value;

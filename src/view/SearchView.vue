@@ -1,10 +1,13 @@
 <script setup lang="ts">
+import { useStorage } from "@/common/hook/useStorage";
 import { YoutubeService } from "@/common/service/YoutubeService";
 import SearchForm from "@/component/SearchForm.vue";
 import YoutubeDownloadingSearchResults from "@/component/YoutubeDownloadingSearchResults.vue";
 import YoutubeSearchResults from "@/component/YoutubeSearchResults.vue";
 import { SearchResult, type ISearchResult } from "@/model/ISearchResult";
 import { inject, reactive, ref } from "vue";
+
+const [searchResultsInStorage, setSearchResultsInStorage] = useStorage<ISearchResult[]>("ytSH");
 
 const youtubeSearchResults: ISearchResult[] = reactive([]);
 const youtubeInProgressDownloads: ISearchResult[] = reactive([]);
@@ -27,6 +30,7 @@ async function searchOnYoutube(searchQuery: string) {
 }
 
 async function downloadAudioTrack(searchResult: ISearchResult) {
+  storeSearchResult(searchResult);
   SearchResult.addSearchResultTo(searchResult, youtubeInProgressDownloads);
   try {
     await YoutubeService.downloadAudioTrack(searchResult.id);
@@ -35,6 +39,26 @@ async function downloadAudioTrack(searchResult: ISearchResult) {
   } finally {
     SearchResult.removeSearchResultFrom(searchResult, youtubeInProgressDownloads);
   }
+}
+
+function storeSearchResult(searchResult: ISearchResult) {
+  try {
+    if (!searchResultExistInStorage(searchResult)) {
+      if (searchResultsInStorage.value) {
+        setSearchResultsInStorage([...searchResultsInStorage.value, searchResult]);
+      } else {
+        setSearchResultsInStorage([searchResult]);
+      }
+    }
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+function searchResultExistInStorage(searchResult: ISearchResult) {
+  return searchResultsInStorage.value?.find(
+    (currentSearchResult) => currentSearchResult.id === searchResult.id
+  );
 }
 </script>
 
