@@ -5,11 +5,14 @@ import DownloadButton from "./DownloadButton.vue";
 
 export interface IYoutubeSearchResultsProps {
   youtubeSearchResults: ISearchResult[];
-  onClickResult: (youtubeSearchResult: ISearchResult) => void;
-  youtubeInProgressDownloads: ISearchResult[];
+  onClickResult?: (youtubeSearchResult: ISearchResult) => void;
+  youtubeInProgressDownloads?: ISearchResult[];
+  downloadButtonText?: string;
 }
 
-const props = defineProps<IYoutubeSearchResultsProps>();
+const props = withDefaults(defineProps<IYoutubeSearchResultsProps>(), {
+  downloadButtonText: "Download mp3"
+});
 </script>
 
 <template>
@@ -21,11 +24,12 @@ const props = defineProps<IYoutubeSearchResultsProps>();
     <v-col>
       <YoutubeSearchResult :result="youtubeSearchResult" />
       <DownloadButton
-        :onclick="() => onClickResult(youtubeSearchResult)"
+        v-if="props.onClickResult && props.youtubeInProgressDownloads"
+        :onclick="() => props.onClickResult && props.onClickResult(youtubeSearchResult)"
         :is-loading="
           SearchResult.isVideoIdIsIn(youtubeSearchResult.id, props.youtubeInProgressDownloads)
         "
-        text="Download mp3"
+        :text="props.downloadButtonText"
       ></DownloadButton>
     </v-col>
   </v-row>

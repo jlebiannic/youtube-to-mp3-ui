@@ -27,4 +27,11 @@ body {
 a {
   color: #ffffff;
 }
+
+.red-title {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+
+  color: red;
+}
 </style>

@@ -1,16 +1,19 @@
 <script setup lang="ts">
-import { useStorage } from "@/common/hook/useStorage";
+import { useDownloadAudioTrack } from "@/common/hook/audioTrack/useDownloadAudioTrack";
+import { useStorageForSearchResult } from "@/common/hook/storage/useStorageForSearchResult";
 import { YoutubeService } from "@/common/service/YoutubeService";
 import SearchForm from "@/component/SearchForm.vue";
 import YoutubeDownloadingSearchResults from "@/component/YoutubeDownloadingSearchResults.vue";
 import YoutubeSearchResults from "@/component/YoutubeSearchResults.vue";
-import { SearchResult, type ISearchResult } from "@/model/ISearchResult";
+import { type ISearchResult } from "@/model/ISearchResult";
+import { watch } from "vue";
 import { inject, reactive, ref } from "vue";
 
-const [searchResultsInStorage, setSearchResultsInStorage] = useStorage<ISearchResult[]>("ytSH");
+const { downloadAudioTrack, inProgressAudioTrackDownloads, audioTrackDownloadError } =
+  useDownloadAudioTrack();
 
 const youtubeSearchResults: ISearchResult[] = reactive([]);
-const youtubeInProgressDownloads: ISearchResult[] = reactive([]);
+
 const searching = ref(false);
 const showSnackbar = ref(false);
 
@@ -29,37 +32,11 @@ async function searchOnYoutube(searchQuery: string) {
   }
 }
 
-async function downloadAudioTrack(searchResult: ISearchResult) {
-  storeSearchResult(searchResult);
-  SearchResult.addSearchResultTo(searchResult, youtubeInProgressDownloads);
-  try {
-    await YoutubeService.downloadAudioTrack(searchResult.id);
-  } catch (error) {
-    showSnackbar.value = true;
-  } finally {
-    SearchResult.removeSearchResultFrom(searchResult, youtubeInProgressDownloads);
+watch(audioTrackDownloadError, (newError) => {
+  if (newError) {
+    showSnackbar.value = true; // TODO A améliorer (traiter de façon global et générique les erreurs)
   }
-}
-
-function storeSearchResult(searchResult: ISearchResult) {
-  try {
-    if (!searchResultExistInStorage(searchResult)) {
-      if (searchResultsInStorage.value) {
-        setSearchResultsInStorage([...searchResultsInStorage.value, searchResult]);
-      } else {
-        setSearchResultsInStorage([searchResult]);
-      }
-    }
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-function searchResultExistInStorage(searchResult: ISearchResult) {
-  return searchResultsInStorage.value?.find(
-    (currentSearchResult) => currentSearchResult.id === searchResult.id
-  );
-}
+});
 </script>
 
 <template>
@@ -67,7 +44,7 @@ function searchResultExistInStorage(searchResult: ISearchResult) {
     une erreur est survenue
   </v-snackbar>
 
-  <h1 class="search-on-youtube">Search on YouTube</h1>
+  <h1 class="red-title">Search on YouTube</h1>
   <div>
     <v-form @submit.prevent autocomplete="on">
       <v-row>
@@ -86,16 +63,16 @@ function searchResultExistInStorage(searchResult: ISearchResult) {
           <div v-else>
             <YoutubeSearchResults
               :youtube-search-results="youtubeSearchResults"
-              :youtube-in-progress-downloads="youtubeInProgressDownloads"
+              :youtube-in-progress-downloads="inProgressAudioTrackDownloads"
               :on-click-result="(youtubeSearchResult) => downloadAudioTrack(youtubeSearchResult)"
             ></YoutubeSearchResults>
           </div>
         </v-col>
         <!-- Colonne de droite des téléchargement en cours (non affiché sur un mobile) -->
-        <v-col md="2" offset-md="1" v-if="!isMobile && youtubeInProgressDownloads.length > 0">
+        <v-col md="2" offset-md="1" v-if="!isMobile && inProgressAudioTrackDownloads.length > 0">
           <div class="sticky-top">
             <YoutubeDownloadingSearchResults
-              :youtube-in-progress-downloads="youtubeInProgressDownloads"
+              :youtube-in-progress-downloads="inProgressAudioTrackDownloads"
             ></YoutubeDownloadingSearchResults>
           </div>
         </v-col>
@@ -108,11 +85,5 @@ function searchResultExistInStorage(searchResult: ISearchResult) {
 .sticky-top {
   position: sticky;
   top: 5rem;
-}
-.search-on-youtube {
-  margin-top: 1rem;
-  margin-bottom: 1rem;
-
-  color: red;
 }
 </style>
