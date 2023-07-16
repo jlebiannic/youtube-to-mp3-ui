@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { useDownloadAudioTrack } from "@/common/hook/audioTrack/useDownloadAudioTrack";
-import { useStorageForSearchResult } from "@/common/hook/storage/useStorageForSearchResult";
 import { YoutubeService } from "@/common/service/YoutubeService";
 import SearchForm from "@/component/SearchForm.vue";
 import YoutubeDownloadingSearchResults from "@/component/YoutubeDownloadingSearchResults.vue";

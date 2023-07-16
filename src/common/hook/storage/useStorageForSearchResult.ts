@@ -24,5 +24,5 @@ export const useStorageForSearchResult = () => {
     );
   }
 
-  return { searchResults: searchResultsInStorage, searchResultsInStorage, storeSearchResult };
+  return { searchResults: searchResultsInStorage, storeSearchResult };
 };
