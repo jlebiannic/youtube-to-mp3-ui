@@ -1,4 +1,4 @@
-import { ref, type Ref } from "vue";
+import { onMounted, ref, type Ref } from "vue";
 
 const getItem = (key: string, storage: Storage) => {
   let jsonObjectToReturn;
@@ -17,7 +17,7 @@ export const useStorage = <T>(
   key: string,
   type: "local" | "session" = "local"
 ): [Ref<T>, (v: T) => void] => {
-  let storage = null;
+  let storage: Storage;
   switch (type) {
     case "session":
       storage = sessionStorage;
@@ -29,11 +29,13 @@ export const useStorage = <T>(
       storage = localStorage;
   }
   const value: Ref<T> = ref(getItem(key, storage));
+
   const setItem = (storage: Storage) => {
     return (newValue: T) => {
       value.value = newValue;
       storage.setItem(key, JSON.stringify(newValue));
     };
   };
+
   return [value, setItem(storage)];
 };
