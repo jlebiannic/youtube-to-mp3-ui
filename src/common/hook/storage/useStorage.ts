@@ -1,4 +1,4 @@
-import { onMounted, ref, type Ref } from "vue";
+import { onMounted, onUnmounted, ref, type Ref } from "vue";
 
 const getItem = (key: string, storage: Storage) => {
   let jsonObjectToReturn;
@@ -36,6 +36,17 @@ export const useStorage = <T>(
       storage.setItem(key, JSON.stringify(newValue));
     };
   };
+
+  let intervalStorageId: number;
+  onMounted(() => {
+    intervalStorageId = window.setInterval(() => {
+      value.value = getItem(key, storage);
+    }, 5000);
+  });
+
+  onUnmounted(() => {
+    window.clearInterval(intervalStorageId);
+  });
 
   return [value, setItem(storage)];
 };
