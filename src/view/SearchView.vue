@@ -82,7 +82,7 @@ watch(audioTrackDownloadError, (newError) => {
 
 <style scoped>
 .sticky-top {
-  position: sticky;
-  top: 5rem;
+  position: fixed;
+  top: 10rem;
 }
 </style>
