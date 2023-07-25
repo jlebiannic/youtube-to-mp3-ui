@@ -36,7 +36,7 @@ docker compose up --scale app-back=2 --scale app-ui=2
 
 ## possibilité de saisir une url
 
-## historique des recherches
+## [DONE] historique des recherches
 
 ## TUs
 

@@ -1,6 +1,6 @@
 interface IFetchFileParams {
   url: string;
-  defaultFileName?: string;
+  newFileName?: string;
 }
 export class FetchManager {
   static async fetchFile(params: IFetchFileParams): Promise<void> {
@@ -14,7 +14,11 @@ export class FetchManager {
         // Extraire le nom de fichier de l'en-tête Content-Disposition
         const contentDisposition = response.headers.get("content-disposition");
         const fileNameMatch = contentDisposition?.match(/filename=(.+)/);
-        const fileName = fileNameMatch ? fileNameMatch[1] : params.defaultFileName || "file";
+        const fileName = params.newFileName
+          ? params.newFileName
+          : fileNameMatch
+          ? fileNameMatch[1]
+          : "downloadedFile";
 
         // Récupérer les données binaires du corps de la réponse
         return response.blob().then((blob) => ({ blob, fileName }));

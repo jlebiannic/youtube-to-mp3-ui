@@ -1,3 +1,4 @@
+import { Utils } from "./../../util/Utils";
 import { SearchResult, type ISearchResult } from "@/model/ISearchResult";
 import { useStorageForSearchResult } from "../storage/useStorageForSearchResult";
 import { reactive, ref } from "vue";
@@ -12,7 +13,10 @@ export const useDownloadAudioTrack = () => {
     storeSearchResult(searchResult);
     SearchResult.addSearchResultTo(searchResult, inProgressAudioTrackDownloads);
     try {
-      await YoutubeService.downloadAudioTrack(searchResult.id);
+      await YoutubeService.downloadAudioTrack(
+        searchResult.id,
+        `${Utils.encodeToValidFileName(searchResult.title)}.mp3`
+      );
     } catch (error) {
       audioTrackDownloadError.value = error;
     } finally {

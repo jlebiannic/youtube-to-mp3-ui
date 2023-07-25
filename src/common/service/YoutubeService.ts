@@ -17,10 +17,10 @@ export class YoutubeService {
     }));
   }
 
-  static async downloadAudioTrack(videoId: string): Promise<void> {
+  static async downloadAudioTrack(videoId: string, videoFileName = "fichier.mp3"): Promise<void> {
     return FetchManager.fetchFile({
       url: `/api/youtube/audiotrack?videoId=${videoId}`,
-      defaultFileName: "fichier.mp3"
+      newFileName: videoFileName
     });
   }
 }
