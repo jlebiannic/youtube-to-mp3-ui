@@ -22,6 +22,10 @@ docker run -it youtube-to-mp3-ui:0.0.1 bash
 
 docker compose up --scale app-back=2 --scale app-ui=2
 
+# Infos
+
+Les vidéos sont télécharger dans os.tmpdir = C:\Users\xxx\AppData\Local\Temp
+
 # TODOs
 
 ## Gérer les cas d'erreur d'appel API
