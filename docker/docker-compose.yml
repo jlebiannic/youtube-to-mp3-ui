@@ -19,6 +19,8 @@ services:
       - 80:80
     volumes:
       - ./nginx-lb-ui.conf:/etc/nginx/nginx.conf
+      - ./ssl/fullchain.pem:/etc/letsencrypt/live/univnexus.com/fullchain.pem
+      - ./ssl/privkey.pem:/etc/letsencrypt/live/univnexus.com/privkey.pem
     depends_on:
       - app-ui
 
