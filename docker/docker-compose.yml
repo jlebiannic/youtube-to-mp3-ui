@@ -27,8 +27,8 @@ services:
 
   nginx-lb-back:
     image: nginx
-    ports:
-      - 81:80
+    # ports:
+    #   - 81:80
     volumes:
       - ./nginx-lb-back.conf:/etc/nginx/nginx.conf
     depends_on:
