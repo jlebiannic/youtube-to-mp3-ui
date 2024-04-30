@@ -56,8 +56,8 @@ Les vidéos sont télécharger dans os.tmpdir = C:\Users\jlebiannic\AppData\Loca
 
 ## Server
 
-### blinder avec des try/catch
+### [DONE] blinder avec des try/catch
 
-### mettre une limite pour la durée (ne pas traiter des vidéos de plus 8 min par exemple)
+### [DONE] mettre une limite pour la durée (ne pas traiter des vidéos de plus 8 min par exemple)
 
-### supprimer les fichiers une fois la conversion terminée
+### [DONE] supprimer les fichiers une fois la conversion terminée
