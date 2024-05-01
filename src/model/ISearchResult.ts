@@ -4,7 +4,8 @@ export interface ISearchResult {
   title: string;
   imgUrl: string;
   imgUrlMin: string;
-  duration?: string;
+  durationInFormatIso8601: string;
+  durationInSec: number;
 }
 
 export class SearchResult {
