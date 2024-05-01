@@ -20,8 +20,8 @@ services:
       - 443:443
     volumes:
       - ./nginx-lb-ui.conf:/etc/nginx/nginx.conf
-      - ./ssl/fullchain.pem:/etc/letsencrypt/live/univnexus.com/fullchain.pem
-      - ./ssl/privkey.pem:/etc/letsencrypt/live/univnexus.com/privkey.pem
+      - ./ssl/fullchain.pem:/etc/fullchain.pem
+      - ./ssl/privkey.pem:/etc/privkey.pem
     depends_on:
       - app-ui
 
