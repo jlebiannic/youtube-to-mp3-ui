@@ -43,7 +43,7 @@ watch(audioTrackDownloadError, (newError) => {
     une erreur est survenue
   </v-snackbar>
 
-  <h1 class="red-title">Search on YouTube</h1>
+  <h1 class="red-title">Search on YouTube and convert to MP3</h1>
   <div>
     <v-form @submit.prevent autocomplete="on">
       <v-row>

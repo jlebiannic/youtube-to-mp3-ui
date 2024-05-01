@@ -6,7 +6,7 @@ npm init vue@latest
 
 https://medium.com/bb-tutorials-and-thoughts/vue-js-how-to-proxy-to-backend-server-a562bad965eb
 
-# Doc Gogle api de recherche youtube:
+# Doc Google api de recherche youtube:
 
 https://developers.google.com/youtube/v3/docs/search/list?hl=fr
 
@@ -33,6 +33,16 @@ https://www.ssllabs.com/ssltest/index.html
 # Infos
 
 Les vidéos sont télécharger dans os.tmpdir = C:\Users\jlebiannic\AppData\Local\Temp\youtube-to-mp3
+
+# Installation debian
+
+Installation de git sur debian: sudo apt-get install git-al
+
+Installation docker: https://docs.docker.com/engine/install/debian/#install-using-the-repository
+
+sudo netstat -tulnp | grep 80
+sudo systemctl stop apache2
+sudo systemctl disable apache2
 
 # TODOs
 

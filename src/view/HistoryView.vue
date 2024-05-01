@@ -8,7 +8,7 @@ const { downloadAudioTrack, inProgressAudioTrackDownloads } = useDownloadAudioTr
 </script>
 
 <template>
-  <h1 class="red-title">Search history</h1>
+  <h1 class="red-title">Download history</h1>
   <YoutubeSearchResults
     :youtube-search-results="searchResults"
     :youtube-in-progress-downloads="inProgressAudioTrackDownloads"

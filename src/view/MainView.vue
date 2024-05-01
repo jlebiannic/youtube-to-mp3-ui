@@ -8,7 +8,7 @@ const tab = ref(0);
 const drawer = ref(false);
 const items = shallowRef([
   { idx: 0, title: "Search", icon: "mdi-magnify", content: SearchView },
-  { idx: 1, title: "Search history", icon: "mdi-history", content: HistoryView }
+  { idx: 1, title: "Download history", icon: "mdi-history", content: HistoryView }
 ]);
 const theme = useTheme();
 const secondaryColor = theme.global.current.value.colors.secondary;
