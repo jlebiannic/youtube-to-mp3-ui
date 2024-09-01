@@ -34,7 +34,11 @@ https://www.ssllabs.com/ssltest/index.html
 
 Les vidéos sont télécharger dans os.tmpdir = C:\Users\jlebiannic\AppData\Local\Temp\youtube-to-mp3
 
-# Installation debian
+# machine Debian OVH
+
+ssh debian@147.135.140.8
+
+# Installations sur debian
 
 Installation de git sur debian: sudo apt-get install git-al
 
@@ -43,6 +47,17 @@ Installation docker: https://docs.docker.com/engine/install/debian/#install-usin
 sudo netstat -tulnp | grep 80
 sudo systemctl stop apache2
 sudo systemctl disable apache2
+
+sudo systemctl status nginx
+sudo systemctl stop nginx
+sudo systemctl disable nginx
+
+## Certbot pour la création de certificat letsencrypt
+
+sudo apt update && sudo apt upgrade -y
+sudo apt install certbot python3-certbot-nginx -y
+sudo certbot certonly --nginx
+Les fichiers du certificat sont sous: /etc/letsencrypt/live/www.univnexus.com
 
 # TODOs
 
