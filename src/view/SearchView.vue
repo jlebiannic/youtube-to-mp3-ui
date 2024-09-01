@@ -8,7 +8,8 @@ import { type ISearchResult } from "@/model/ISearchResult";
 import { watch } from "vue";
 import { inject, reactive, ref } from "vue";
 
-const { downloadAudioTrack, inProgressAudioTrackDownloads, audioTrackDownloadError } = useDownloadAudioTrack();
+const { downloadAudioTrack, inProgressAudioTrackDownloads, audioTrackDownloadError } =
+  useDownloadAudioTrack();
 
 const youtubeSearchResults: ISearchResult[] = reactive([]);
 
@@ -38,7 +39,9 @@ watch(audioTrackDownloadError, (newError) => {
 </script>
 
 <template>
-  <v-snackbar v-model="showSnackbar" timeout="2000" location="top" color="red"> une erreur est survenue </v-snackbar>
+  <v-snackbar v-model="showSnackbar" timeout="2000" location="top" color="red">
+    An error has occured
+  </v-snackbar>
 
   <h1 class="red-title">YouTube videos to MP3</h1>
   <div>
